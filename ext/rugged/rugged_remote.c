@@ -528,9 +528,14 @@ static VALUE rb_git_remote_check_connection(int argc, VALUE *argv, VALUE self)
 	init_proxy_options(rb_options, &proxy_options);
 
 	error = git_remote_connect(remote, direction, &callbacks, &proxy_options, &custom_headers);
-	git_remote_disconnect(remote);
 
-	xfree(custom_headers.strings);
+  if (!error)
+	  git_remote_disconnect(remote);
+
+  if (custom_headers.strings){
+	  xfree(custom_headers.strings);
+    git_strarray_free(&custom_headers);
+  }
 
 	if (payload.exception)
 		rb_jump_tag(payload.exception);
