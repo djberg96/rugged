@@ -530,10 +530,10 @@ static VALUE rb_git_remote_check_connection(int argc, VALUE *argv, VALUE self)
 	error = git_remote_connect(remote, direction, &callbacks, &proxy_options, &custom_headers);
 
   if (!error)
-	  git_remote_disconnect(remote);
+    git_remote_disconnect(remote);
 
   if (custom_headers.strings){
-	  xfree(custom_headers.strings);
+    xfree(custom_headers.strings);
     git_strarray_free(&custom_headers);
   }
 
